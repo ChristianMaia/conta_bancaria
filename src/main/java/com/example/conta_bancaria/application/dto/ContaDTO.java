@@ -4,14 +4,16 @@ import com.example.conta_bancaria.domain.entity.Conta;
 import com.example.conta_bancaria.domain.entity.ContaCorrente;
 import com.example.conta_bancaria.domain.entity.ContaPoupanca;
 
+import java.math.BigDecimal;
+
 public record ContaDTO(
         Long id,
         String numero,
-        Double saldo,
+        BigDecimal saldo,
         String tipo, // "corrente" ou "poupanca"
-        String limite,  // só para corrente
-        Double taxa,    // só para corrente
-        Double rendimento // só para poupanca
+        BigDecimal limite,  // só para corrente
+        BigDecimal taxa,    // só para corrente
+        BigDecimal rendimento // só para poupanca
 ) {
 
     public static ContaDTO fromEntity(Conta conta) {
