@@ -31,7 +31,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{cpf}")
-    public ResponseEntity<List<ClienteResponseDTO>> listarClientesPorCPF(@PathVariable String cpf){
+    public ResponseEntity<ClienteResponseDTO> listarClientesPorCPF(@PathVariable String cpf){
         return ResponseEntity.ok(service.listarClientesPorCPF(cpf));
     }
 }
