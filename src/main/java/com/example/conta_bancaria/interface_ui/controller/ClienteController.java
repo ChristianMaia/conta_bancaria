@@ -1,5 +1,6 @@
 package com.example.conta_bancaria.interface_ui.controller;
 
+import com.example.conta_bancaria.application.dto.ClienteAtualizadoDTO;
 import com.example.conta_bancaria.application.dto.ClienteRegistroDTO;
 import com.example.conta_bancaria.application.dto.ClienteResponseDTO;
 import com.example.conta_bancaria.application.service.ClienteService;
@@ -30,8 +31,21 @@ public class ClienteController {
         return ResponseEntity.ok(service.listarClientesAtivos());
     }
 
-    @GetMapping("/{cpf}")
-    public ResponseEntity<ClienteResponseDTO> listarClientesPorCPF(@PathVariable String cpf){
-        return ResponseEntity.ok(service.listarClientesPorCPF(cpf));
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<ClienteResponseDTO> buscarClientesPorCPF(@PathVariable String cpf){
+        return ResponseEntity.ok(service.buscarClientesPorCPF(cpf));
+    }
+
+    @PutMapping("/{cpf}")
+    public ResponseEntity<ClienteResponseDTO> atualizarClientes(@PathVariable String cpf,
+                                                                @RequestBody ClienteAtualizadoDTO dto){
+
+        return ResponseEntity.ok(service.atualizarCliente(cpf, dto));
+    }
+
+    @DeleteMapping("/{cpf}")
+    public ResponseEntity<Void> deletarCliente(@PathVariable String cpf){
+        service.deletarCliente(cpf);
+        return ResponseEntity.noContent().build();
     }
 }
