@@ -5,6 +5,9 @@ import com.example.conta_bancaria.application.dto.ContaResumoDTO;
 import com.example.conta_bancaria.application.dto.TransferenciaDTO;
 import com.example.conta_bancaria.application.dto.ValorSaqueDepositoDTO;
 import com.example.conta_bancaria.domain.entity.Cliente;
+import com.example.conta_bancaria.domain.exception.EntidadeNaoEncontradoException;
+import com.example.conta_bancaria.domain.exception.RendimentoInvalidoException;
+import com.example.conta_bancaria.domain.exception.TipoDeContaInvalidoException;
 import com.example.conta_bancaria.domain.repository.ContaRepository;
 import com.example.conta_bancaria.domain.repository.CorrenteRepository;
 import com.example.conta_bancaria.domain.repository.PoupancaRepository;
@@ -40,8 +43,7 @@ public class ContaService {
     @Transactional(readOnly = true)
     public ContaResumoDTO buscarContaPorNumero(String numero) {
         return ContaResumoDTO.FromEntity(
-                repository.findByNumeroAndAtivaTrue(numero)
-                        .orElseThrow(() -> new RuntimeException("Conta não encontrada"))
+                buscarContaAtivaPorNumero(numero)
         );
     }
 
@@ -53,7 +55,7 @@ public class ContaService {
             corrente.setLimite(dto.limite());
             corrente.setTaxa(dto.taxa());
         } else {
-            throw new RuntimeException("Tipo de conta invalido");
+            throw new TipoDeContaInvalidoException("");
         }
         conta.setSaldo(dto.saldo());
         return ContaResumoDTO.FromEntity(repository.save(conta));
@@ -77,20 +79,30 @@ public class ContaService {
         return ContaResumoDTO.FromEntity(repository.save(conta));
     }
 
-    private Conta buscarContaAtivaPorNumero(String numero){
-        return repository.findByNumeroAndAtivaTrue(numero)
-                .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
-    }
 
     public ContaResumoDTO transferir(String numero, TransferenciaDTO dto) {
         Conta contaOrigem = buscarContaAtivaPorNumero(numero);
         Conta contaDestino = buscarContaAtivaPorNumero(dto.contaDestino());
 
-        contaOrigem.sacar(dto.valor());
-        contaDestino.depositar(dto.valor());
+        contaOrigem.transferir(dto.valor(), contaDestino);
 
         repository.save(contaDestino);
         return ContaResumoDTO.FromEntity(repository.save(contaOrigem));
     }
+
+    public ContaResumoDTO aplicarRendimento(String numeroDaConta) {
+        Conta conta = buscarContaAtivaPorNumero(numeroDaConta);
+        if (conta instanceof ContaPoupanca poupanca){
+            poupanca.aplicarRendimento();
+            return ContaResumoDTO.FromEntity(repository.save(poupanca));
+        }
+        throw new RendimentoInvalidoException();
+    }
+
+    private Conta buscarContaAtivaPorNumero(String numero){
+        return repository.findByNumeroAndAtivaTrue(numero)
+                .orElseThrow(() -> new EntidadeNaoEncontradoException("conta"));
+    }
+
 }
 

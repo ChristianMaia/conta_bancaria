@@ -1,6 +1,10 @@
 package com.example.conta_bancaria.domain.entity;
 
 
+import com.example.conta_bancaria.domain.exception.EntidadeNaoEncontradoException;
+import com.example.conta_bancaria.domain.exception.SaldoInsuficienteException;
+import com.example.conta_bancaria.domain.exception.TransferirParaMesmaContaException;
+import com.example.conta_bancaria.domain.exception.ValoresNegativosException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,21 +47,23 @@ public abstract class Conta {
     public abstract String getTipo();
 
     public void sacar(BigDecimal valor) {
-        validarValorMaiorQueZero(valor);
+        validarValorMaiorQueZero(valor, "saque");
         if (valor.compareTo(saldo) > 0){
-            throw new IllegalArgumentException("Saldo insuficiente para saque.");
+            throw new SaldoInsuficienteException("saque");
         }
+
+        saldo = saldo.subtract(valor);
     }
 
 
     public void depositar(BigDecimal valor){
-        validarValorMaiorQueZero(valor);
+        validarValorMaiorQueZero(valor, "depósito");
         saldo = saldo.add(valor);
     }
 
     public void transferir(BigDecimal valor, Conta contaDestino){
         if (this.id.equals(contaDestino.getId())){
-            throw new IllegalArgumentException("Não é possivel transferir para a mesma conta");
+            throw new TransferirParaMesmaContaException();
         }
 
         this.sacar(valor);
@@ -65,9 +71,9 @@ public abstract class Conta {
     }
 
 
-    protected static void validarValorMaiorQueZero(BigDecimal valor) {
+    protected static void validarValorMaiorQueZero(BigDecimal valor, String operacao) {
         if (valor.compareTo(BigDecimal.ZERO) <= 0){
-            throw new IllegalArgumentException("O valor não pode ser negativo");
+            throw new ValoresNegativosException(operacao);
         }
     }
 

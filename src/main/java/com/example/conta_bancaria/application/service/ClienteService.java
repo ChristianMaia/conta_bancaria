@@ -7,6 +7,8 @@ import com.example.conta_bancaria.domain.entity.Cliente;
 import com.example.conta_bancaria.domain.entity.Conta;
 import com.example.conta_bancaria.domain.entity.ContaCorrente;
 import com.example.conta_bancaria.domain.entity.ContaPoupanca;
+import com.example.conta_bancaria.domain.exception.ContaMesmoTipoException;
+import com.example.conta_bancaria.domain.exception.EntidadeNaoEncontradoException;
 import com.example.conta_bancaria.domain.repository.ClienteRepository;
 import com.example.conta_bancaria.domain.repository.CorrenteRepository;
 import com.example.conta_bancaria.domain.repository.PoupancaRepository;
@@ -34,7 +36,7 @@ public class ClienteService {
                 c -> c.getClass().equals(novaConta.getClass()) && c.isAtiva()
         );
         if (jaTemTipo)
-            throw new RuntimeException("Cliente ja possui uma conta desse tipo");
+            throw new ContaMesmoTipoException();
 
         cliente.getContas().add(novaConta);
 
@@ -48,16 +50,13 @@ public class ClienteService {
     }
 
     public ClienteResponseDTO buscarClientesPorCPF(String cpf){
-        var cliente = repository.findByCpfAndAtivoTrue(cpf).orElseThrow(
-                () -> new RuntimeException("Cliente não encontrado")
-        );
+        var cliente = buscarClientePorCpfAtivo(cpf);
         return ClienteResponseDTO.fromEntity(cliente);
     }
 
+
     public ClienteResponseDTO atualizarCliente(String cpf, ClienteAtualizadoDTO dto) {
-        var cliente = repository.findByCpfAndAtivoTrue(cpf).orElseThrow(
-                () -> new RuntimeException("Cliente não encontrado")
-        );
+        var cliente = buscarClientePorCpfAtivo(cpf);
 
         cliente.setNome(dto.nome());
         cliente.setCpf(dto.cpf());
@@ -66,9 +65,7 @@ public class ClienteService {
     }
 
     public void deletarCliente(String cpf){
-        var cliente = repository.findByCpfAndAtivoTrue(cpf).orElseThrow(
-                () -> new RuntimeException("Cliente não encontrado")
-        );
+        var cliente = buscarClientePorCpfAtivo(cpf);
         cliente.setAtivo(false);
 
         cliente.getContas().forEach(
@@ -76,4 +73,11 @@ public class ClienteService {
         );
         repository.save(cliente);
     }
+    private Cliente buscarClientePorCpfAtivo(String cpf) {
+        var cliente = repository.findByCpfAndAtivoTrue(cpf).orElseThrow(
+                () -> new EntidadeNaoEncontradoException("cliente")
+        );
+        return cliente;
+    }
+    
 }
