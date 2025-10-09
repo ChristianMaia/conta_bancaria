@@ -31,6 +31,7 @@ import java.util.Optional;
 @Transactional
 @Service
 public class ContaService {
+
     private final ContaRepository repository;
 
     @Transactional(readOnly = true)
