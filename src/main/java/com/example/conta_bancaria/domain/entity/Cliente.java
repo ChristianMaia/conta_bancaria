@@ -1,5 +1,6 @@
 package com.example.conta_bancaria.domain.entity;
 
+import com.example.conta_bancaria.domain.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -36,5 +37,9 @@ public class Cliente {
 
     @Column(nullable = false)
     private Boolean ativo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    protected Role role;
 
 }
