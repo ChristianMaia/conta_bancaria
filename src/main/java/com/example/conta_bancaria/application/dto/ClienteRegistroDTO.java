@@ -15,6 +15,10 @@ public record ClienteRegistroDTO (
         @NotBlank(message = "O CPF não pode estar vazio")
         @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 digitos numéricos")
         String cpf,
+        @NotBlank(message = "Sua senha não pode ser vazia")
+        @Size(min = 6, max = 25, message = "A senha deve conter 6 a 25 caracteres")
+        String senha,
+
         ContaResumoDTO contaDTO
 ){
     public Cliente toEntity() {
@@ -22,6 +26,7 @@ public record ClienteRegistroDTO (
                 .ativo(true)
                 .nome(this.nome)
                 .cpf(this.cpf)
+                .senha(this.senha)
                 .contas(new ArrayList<Conta>())
                 .build();
     }

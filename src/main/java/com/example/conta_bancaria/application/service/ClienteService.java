@@ -14,6 +14,7 @@ import com.example.conta_bancaria.domain.repository.CorrenteRepository;
 import com.example.conta_bancaria.domain.repository.PoupancaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ import java.util.List;
 public class ClienteService {
 
     private final ClienteRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     public ClienteResponseDTO registrarCliente(ClienteRegistroDTO dto){
         var cliente = repository.findByCpfAndAtivoTrue(dto.cpf()).orElseGet(
@@ -39,6 +41,7 @@ public class ClienteService {
             throw new ContaMesmoTipoException();
 
         cliente.getContas().add(novaConta);
+        cliente.setSenha(passwordEncoder.encode(dto.senha()));
 
         return ClienteResponseDTO.fromEntity(repository.save(cliente));
 

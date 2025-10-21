@@ -1,3 +1,3 @@
 package com.example.conta_bancaria.domain.enums;
 
-public enum Role { USUARIO, GERENTE, CLIENTE, }
+public enum Role { GERENTE, CLIENTE, }

@@ -11,6 +11,7 @@ import java.security.Key;
 import java.time.Instant;
 import java.util.Date;
 
+@Service
 public class JwtService {
 
     private final Key key;

@@ -38,6 +38,10 @@ public class Cliente {
     @Column(nullable = false)
     private Boolean ativo;
 
+    @NotBlank
+    @Column(nullable = false)
+    protected String senha;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     protected Role role;
