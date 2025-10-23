@@ -2,6 +2,7 @@ package com.example.conta_bancaria.application.dto;
 
 import com.example.conta_bancaria.domain.entity.Cliente;
 import com.example.conta_bancaria.domain.entity.Conta;
+import com.example.conta_bancaria.domain.enums.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -27,6 +28,7 @@ public record ClienteRegistroDTO (
                 .nome(this.nome)
                 .cpf(this.cpf)
                 .senha(this.senha)
+                .role(Role.CLIENTE)
                 .contas(new ArrayList<Conta>())
                 .build();
     }

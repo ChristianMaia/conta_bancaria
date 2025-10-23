@@ -24,10 +24,10 @@ public class JwtService {
         this.expirationSeconds = expirationSeconds;
     }
 
-    public String generateToken(String email, String role) {
+    public String generateToken(String cpf, String role) {
         Instant now = Instant.now();
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(cpf)
                 .claim("role", role)
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(now.plusSeconds(expirationSeconds)))

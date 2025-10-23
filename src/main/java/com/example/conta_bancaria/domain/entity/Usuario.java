@@ -21,8 +21,8 @@ import lombok.experimental.SuperBuilder;
 public abstract class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    protected String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
     @NotBlank
     @Column(nullable = false)

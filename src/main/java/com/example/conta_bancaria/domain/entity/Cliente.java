@@ -8,42 +8,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Entity
 @Data
-@Builder
+@SuperBuilder
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "clientes",
 uniqueConstraints = {
            @UniqueConstraint(columnNames = "cpf")
        })
-public class Cliente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, length = 125)
-    private String nome;
-
-    @NotBlank(message = "É necessario colocar seu CPF")
-    @Size(min = 11, max = 11, message = "O seu CPF deve conter 11 digitos")
-    private String cpf;
-
+public class Cliente  extends Usuario{
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Conta> contas;
-
-    @Column(nullable = false)
-    private Boolean ativo;
-
-    @NotBlank
-    @Column(nullable = false)
-    protected String senha;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    protected Role role;
-
 }

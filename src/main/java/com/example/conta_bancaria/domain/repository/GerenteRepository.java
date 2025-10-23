@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface GerenteRepository extends JpaRepository<Gerente, Long> {
     Optional<Gerente> findByCpfAndAtivoTrue(String cpf);
+    Optional<Gerente> findByCpf(String cpf);
 }
