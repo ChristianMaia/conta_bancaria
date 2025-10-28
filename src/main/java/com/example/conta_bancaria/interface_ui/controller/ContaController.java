@@ -27,7 +27,12 @@ public class ContaController {
             summary = "Listar todas as contas",
             description = "Retorna todas as contas registradas",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
+                    @ApiResponse(responseCode = "200",
+                            description = "Lista retornada com sucesso",
+                            content = @Content(
+                            examples = @ExampleObject(value = "Lista retornada com sucesso")
+                    ))
+
             }
     )
     @GetMapping
@@ -42,13 +47,18 @@ public class ContaController {
                     @Parameter(name = "numero", description = "Numero da conta a ser buscado", example = "1001-XX")
             },
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Conta encontrada"),
+                    @ApiResponse(responseCode = "200",
+                            description = "Conta encontrada",
+                            content = @Content(
+                                    examples = @ExampleObject(value = "Conta encontrada com sucesso")
+                            )),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Conta não encontrada",
                             content = @Content(
                                     mediaType = "application/json",
                                     examples = @ExampleObject(value = "\"Conta com o numero XXXX-XX não encontrado.\"")
+
                             )
                     )
             }
@@ -79,7 +89,11 @@ public class ContaController {
                     )
             ),
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Conta atualizado com sucesso"),
+                    @ApiResponse(responseCode = "200",
+                            description = "Conta atualizado com sucesso",
+                            content = @Content(
+                                    examples = @ExampleObject(value = "Conta atualizado com sucesso")
+                            )),
                     @ApiResponse(
                             responseCode = "400",
                             description = "Erro de validação",
@@ -113,7 +127,11 @@ public class ContaController {
                     @Parameter(name = "numero", description = "Numero da conta a ser deletado", example = "1001-XX")
             },
             responses = {
-                    @ApiResponse(responseCode = "204", description = "Conta removida com sucesso"),
+                    @ApiResponse(responseCode = "204",
+                            description = "Conta removida com sucesso",
+                            content = @Content(
+                                    examples = @ExampleObject(value = "Conta removida com sucesso")
+                            )),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Conta não encontrado",
@@ -148,7 +166,11 @@ public class ContaController {
                     )
             ),
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Conta sacada com sucesso"),
+                    @ApiResponse(responseCode = "200",
+                            description = "Conta sacada com sucesso",
+                            content = @Content(
+                                    examples = @ExampleObject(value = "Saque da conta com sucesso")
+                            )),
                     @ApiResponse(
                             responseCode = "400",
                             description = "Erro de validação",
@@ -193,7 +215,12 @@ public class ContaController {
                     )
             ),
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Conta depositada com sucesso"),
+                    @ApiResponse(responseCode = "200",
+                            description = "Conta depositada com sucesso",
+                            content = @Content(
+                                    examples = @ExampleObject(value = "Conta depositada com sucesso")
+                            )
+                    ),
                     @ApiResponse(
                             responseCode = "400",
                             description = "Erro de validação",
@@ -239,7 +266,11 @@ public class ContaController {
                     )
             ),
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Saldo transferido com sucesso"),
+                    @ApiResponse(responseCode = "200",
+                            description = "Saldo transferido com sucesso",
+                            content = @Content(
+                                    examples = @ExampleObject(value = "Saldo foi transferido com sucesso")
+                            )),
                     @ApiResponse(
                             responseCode = "400",
                             description = "Erro de validação",
@@ -284,7 +315,11 @@ public class ContaController {
                     )
             ),
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Conta obteve rendimento com sucesso"),
+                    @ApiResponse(responseCode = "200",
+                            description = "Conta obteve rendimento com sucesso",
+                            content = @Content(
+                                    examples = @ExampleObject(value = "Conta tem rendimento agora com sucesso")
+                            )),
                     @ApiResponse(
                             responseCode = "400",
                             description = "Erro de validação",
