@@ -9,6 +9,7 @@ import com.example.conta_bancaria_mqtt.domain.exception.RendimentoInvalidoExcept
 import com.example.conta_bancaria_mqtt.domain.exception.TipoDeContaInvalidoException;
 import com.example.conta_bancaria_mqtt.domain.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class ContaService {
     private final ContaRepository repository;
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('CLIENTE')")
     public List<ContaResumoDTO> listarTodasContas() {
         return repository.findAllByAtivaTrue().stream()
                 .filter(Conta::isAtiva)
@@ -33,12 +35,13 @@ public class ContaService {
     }
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('CLIENTE')")
     public ContaResumoDTO buscarContaPorNumero(String numero) {
         return ContaResumoDTO.FromEntity(
                 buscarContaAtivaPorNumero(numero)
         );
     }
-
+    @PreAuthorize("hasRole('CLIENTE')")
     public ContaResumoDTO atualizarConta(String numero, ContaAtualizacaoDTO dto) {
         Conta conta = buscarContaAtivaPorNumero(numero);
         if (conta instanceof ContaPoupanca poupanca){
@@ -52,26 +55,26 @@ public class ContaService {
         conta.setSaldo(dto.saldo());
         return ContaResumoDTO.FromEntity(repository.save(conta));
     }
-
+    @PreAuthorize("hasRole('CLIENTE')")
     public void deletarConta(String numero){
         Conta conta = buscarContaAtivaPorNumero(numero);
         conta.setAtiva(false);
         repository.save(conta);
     }
-
+    @PreAuthorize("hasRole('CLIENTE')")
     public ContaResumoDTO sacar(String numero, ValorSaqueDepositoDTO dto) {
         Conta conta = buscarContaAtivaPorNumero(numero);
         conta.sacar(dto.valor());
         return ContaResumoDTO.FromEntity(repository.save(conta));
     }
-
+    @PreAuthorize("hasRole('CLIENTE')")
     public ContaResumoDTO depositar(String numero, ValorSaqueDepositoDTO dto) {
         Conta conta = buscarContaAtivaPorNumero(numero);
         conta.depositar(dto.valor());
         return ContaResumoDTO.FromEntity(repository.save(conta));
     }
 
-
+    @PreAuthorize("hasRole('CLIENTE')")
     public ContaResumoDTO transferir(String numero, TransferenciaDTO dto) {
         Conta contaOrigem = buscarContaAtivaPorNumero(numero);
         Conta contaDestino = buscarContaAtivaPorNumero(dto.contaDestino());
@@ -82,6 +85,7 @@ public class ContaService {
         return ContaResumoDTO.FromEntity(repository.save(contaOrigem));
     }
 
+    @PreAuthorize("hasRole('ADMIN', 'GERENTE', 'CLIENTE')")
     public ContaResumoDTO aplicarRendimento(String numeroDaConta) {
         Conta conta = buscarContaAtivaPorNumero(numeroDaConta);
         if (conta instanceof ContaPoupanca poupanca){

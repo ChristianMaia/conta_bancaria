@@ -15,14 +15,5 @@ import java.util.List;
 @Table(name = "gerentes")
 
 public class Gerente extends Usuario{
-        @ElementCollection(fetch = FetchType.EAGER)
-        @CollectionTable(name="gerente_contas", joinColumns=@JoinColumn(name="gerente_id"))
-        @Column(name="conta")
-        private List<String > listaDeContas;
-
-        @ElementCollection(fetch = FetchType.EAGER)
-        @CollectionTable(name="gerente_clientes", joinColumns=@JoinColumn(name="gerente_id"))
-        @Column(name="cliente")
-        private List<String > listaDeCliente;
 
 }

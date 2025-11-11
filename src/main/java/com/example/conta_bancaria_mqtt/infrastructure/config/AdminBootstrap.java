@@ -16,15 +16,15 @@ public class AdminBootstrap implements CommandLineRunner {
     private final GerenteRepository gerenteRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${sistema.gerente.cpf}")
-    private String gerenteCpf;
+    @Value("${sistema.admin.cpf}")
+    private String adminCpf;
 
-    @Value("${sistema.gerente.senha}")
-    private String gerenteSenha;
+    @Value("${sistema.admin.senha}")
+    private String adminSenha;
 
     @Override
     public void run(String... args) {
-        gerenteRepository.findByCpfAndAtivoTrue(gerenteCpf).ifPresentOrElse(
+        gerenteRepository.findByCpfAndAtivoTrue(adminCpf).ifPresentOrElse(
                 gerentes -> {
                     if (!gerentes.isAtivo()) {
                         gerentes.setAtivo(true);
@@ -33,14 +33,14 @@ public class AdminBootstrap implements CommandLineRunner {
                 },
                 () -> {
                     Gerente admin = Gerente.builder()
-                            .nome("Gerente provisorio")
-                            .cpf(gerenteCpf)
-                            .senha(passwordEncoder.encode(gerenteSenha))
-                            .role(Role.GERENTE)
+                            .nome("Administrador provisório")
+                            .cpf(adminCpf)
+                            .senha(passwordEncoder.encode(adminSenha))
+                            .role(Role.ADMIN)
                             .ativo(true)
                             .build();
                     gerenteRepository.save(admin);
-                    System.out.println("⚡ Usuário admin provisório criado: " + gerenteCpf);
+                    System.out.println("⚡ Usuário admin provisório criado: " + adminCpf);
                 }
         );
     }
