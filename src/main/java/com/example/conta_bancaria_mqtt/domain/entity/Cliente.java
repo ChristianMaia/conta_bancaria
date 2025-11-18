@@ -21,4 +21,12 @@ uniqueConstraints = {
 public class Cliente  extends Usuario{
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Conta> contas;
+
+    @OneToOne
+    protected CodigoAutenticacao autenticacao;
+
+    @OneToOne
+    protected DispositivoIoT ioT;
+
+
 }
