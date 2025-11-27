@@ -14,7 +14,7 @@ public record ClienteRegistroDTO (
         @Size(min = 3, max = 100, message = "O nome deve ter entre 3 a 100 caracteres")
         String nome,
         @NotBlank(message = "O CPF não pode estar vazio")
-        @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 digitos numéricos")
+        @Pattern(regexp = "\\d{14}", message = "CPF deve conter 14 digitos numéricos")
         String cpf,
         @NotBlank(message = "Sua senha não pode ser vazia")
         @Size(min = 6, max = 25, message = "A senha deve conter 6 a 25 caracteres")

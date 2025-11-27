@@ -2,6 +2,7 @@ package com.example.conta_bancaria_mqtt.application.dto;
 
 import com.example.conta_bancaria_mqtt.domain.entity.Gerente;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -14,7 +15,7 @@ public record GerenteResponseDTO(
 
         @NotNull(message = "O CPF não pode ser nulo")
         @Positive
-        @Size(min = 11, max = 11, message = "o CPF deve ter 11 caracteres")
+        @Pattern(regexp = "\\d{14}", message = "CPF deve conter 14 digitos numéricos")
         String cpf,
 
         @NotNull(message = "A senha não pode ser nula")

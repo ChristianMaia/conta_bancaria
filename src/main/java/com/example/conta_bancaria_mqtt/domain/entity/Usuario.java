@@ -25,10 +25,9 @@ public abstract class Usuario {
     protected String nome;
 
     @NotBlank
-    @Column(nullable = false, unique = true, length = 11)
+    @Column(nullable = false, unique = true, length = 14)
     protected String cpf; // formato "000.000.000-00" (validação pode ser ampliada)
 
-    @Builder.Default
     @Column(nullable = false)
     protected boolean ativo = true;
 

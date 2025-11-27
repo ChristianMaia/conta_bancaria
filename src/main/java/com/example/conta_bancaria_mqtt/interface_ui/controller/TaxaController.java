@@ -169,7 +169,7 @@ public class TaxaController {
                     )
             }
     )
-    @PutMapping("/{id}")
+    @PutMapping("/percentual/{id}")
     public ResponseEntity<TaxaResponseDTO> atualizarPercentual(@PathVariable Long id,
                                                                 @Valid @RequestBody TaxaRegistroDTO dto) {
         return ResponseEntity.ok(service.atualizarPercentual(id, dto));
@@ -225,7 +225,7 @@ public class TaxaController {
                     )
             }
     )
-    @PutMapping("/{id}")
+    @PutMapping("/valorfixo/{id}")
     public ResponseEntity<TaxaResponseDTO> atualizarValorFixo(@PathVariable Long id,
                                                                @Valid @RequestBody TaxaRegistroDTO dto) {
         return ResponseEntity.ok(service.atualizarValorFixo(id, dto));
@@ -260,7 +260,7 @@ public class TaxaController {
                     )
             }
     )
-    @DeleteMapping("/{cpf}")
+    @DeleteMapping("deletataxa/{id}")
     public ResponseEntity<Void> deletarTaxa(@PathVariable Long id) {
         service.deletarTaxa(id);
         return ResponseEntity.noContent().build();

@@ -10,7 +10,7 @@ public record ClienteAtualizadoDTO(
         String nome,
 
         @NotBlank(message = "O CPF não pode estar vazio")
-        @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 digitos numéricos")
+        @Pattern(regexp = "\\d{14}", message = "CPF deve conter 14 digitos numéricos")
         String cpf
 ) {
 
