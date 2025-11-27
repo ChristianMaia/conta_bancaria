@@ -26,6 +26,5 @@ public class DispositivoIoT {
 
     protected String ativo;
 
-    @OneToOne
     protected Cliente cliente;
 }

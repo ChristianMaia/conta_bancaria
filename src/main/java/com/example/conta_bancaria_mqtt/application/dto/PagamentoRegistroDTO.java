@@ -5,6 +5,7 @@ import com.example.conta_bancaria_mqtt.domain.entity.Pagamento;
 import com.example.conta_bancaria_mqtt.domain.entity.Taxa;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record PagamentoRegistroDTO(
 
@@ -13,7 +14,7 @@ public record PagamentoRegistroDTO(
         BigDecimal valorPago,
         String dataPagamento,
         String status,
-        Taxa taxa
+        List<Taxa> taxas
 ) {
 
     public Pagamento toEntity(){
@@ -23,7 +24,7 @@ public record PagamentoRegistroDTO(
                 .valorPago(valorPago)
                 .dataPagamento(dataPagamento)
                 .status(status)
-                .taxa(taxa)
+                .taxas(taxas)
                 .build();
             }
 }

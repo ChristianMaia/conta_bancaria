@@ -4,10 +4,7 @@ package com.example.conta_bancaria_mqtt.domain.entity;
 import com.example.conta_bancaria_mqtt.domain.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Getter
@@ -31,6 +28,7 @@ public abstract class Usuario {
     @Column(nullable = false, unique = true, length = 11)
     protected String cpf; // formato "000.000.000-00" (validação pode ser ampliada)
 
+    @Builder.Default
     @Column(nullable = false)
     protected boolean ativo = true;
 

@@ -3,18 +3,18 @@ package com.example.conta_bancaria_mqtt.domain.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
-@Entity
-@Data
-@EqualsAndHashCode(callSuper = true)
-@SuperBuilder
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Entity
+@EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("POUPANCA")
 public class ContaPoupanca extends Conta{
 

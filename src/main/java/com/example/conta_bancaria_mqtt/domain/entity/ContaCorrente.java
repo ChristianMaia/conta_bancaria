@@ -5,19 +5,19 @@ import com.example.conta_bancaria_mqtt.domain.exception.SaldoInsuficienteExcepti
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Entity
-@Data
 @DiscriminatorValue("CORRENTE")
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder
-@NoArgsConstructor
 public class ContaCorrente extends Conta {
 
     @Column(precision = 19, scale = 2)

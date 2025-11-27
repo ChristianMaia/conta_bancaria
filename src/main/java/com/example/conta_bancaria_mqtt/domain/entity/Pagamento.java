@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,6 +32,8 @@ public class Pagamento {
 
     protected String status;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    protected Taxa taxa;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Taxa> taxas;
+
+    //fetch = FetchType.LAZY
 }

@@ -26,6 +26,5 @@ public class CodigoAutenticacao {
     protected String validado;
 
     @NotBlank
-    @OneToOne
     protected Cliente cliente;
 }

@@ -8,6 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaxaRepository extends JpaRepository<Taxa, Long> {
-    Optional<Taxa> findByIdAndAtivoTrue(Long id);
-    List<Taxa> findAllByAtivoTrue();
+
 }

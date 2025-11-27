@@ -23,19 +23,21 @@ public class TaxaService {
     @PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
     public TaxaResponseDTO registrarTaxa(TaxaRegistroDTO dto) {
         var novaTaxa = dto.toEntity();
+        Taxa taxa = acharTaxaPorId(dto.toEntity().getId());
+        taxa.validarTaxa(dto.percentual(), dto.valorfixo());
         return TaxaResponseDTO.fromEntity(repository.save(novaTaxa));
     }
 
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
     public List<TaxaResponseDTO> listarTaxasAtivas() {
-        return repository.findAllByAtivoTrue().stream()
+        return repository.findAll().stream()
                 .map(TaxaResponseDTO::fromEntity)
                 .toList();
     }
 
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
-    @PreAuthorize("hasAnyRole('ADMIN','GERENTE','CLIENTE')")
+    @PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
     public TaxaResponseDTO buscarTaxaPorId(Long id) {
         Taxa taxa = acharTaxaPorId(id);
         return TaxaResponseDTO.fromEntity(taxa);
@@ -43,13 +45,27 @@ public class TaxaService {
 
     @Transactional
     @PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
-    public TaxaResponseDTO atualizarTaxa(Long id, TaxaRegistroDTO dto) {
+    public TaxaResponseDTO atualizarPercentual(Long id, TaxaRegistroDTO dto) {
         Taxa taxa = acharTaxaPorId(id);
 
         taxa.setDescricao(dto.descricao());
         taxa.setPercentual(dto.percentual());
         taxa.setDescricao(dto.descricao());
 
+        taxa.validarTaxa(dto.percentual(), dto.valorfixo());
+        return TaxaResponseDTO.fromEntity(repository.save(taxa));
+    }
+
+    @Transactional
+    @PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
+    public TaxaResponseDTO atualizarValorFixo(Long id, TaxaRegistroDTO dto) {
+        Taxa taxa = acharTaxaPorId(id);
+
+        taxa.setDescricao(dto.descricao());
+        taxa.setValorFixo(dto.valorfixo());
+        taxa.setDescricao(dto.descricao());
+
+        taxa.validarTaxa(dto.percentual(), dto.valorfixo());
         return TaxaResponseDTO.fromEntity(repository.save(taxa));
     }
 
@@ -61,7 +77,7 @@ public class TaxaService {
     }
 
     private Taxa acharTaxaPorId(Long id) {
-        var taxa = repository.findByIdAndAtivoTrue(id).orElseThrow(
+        var taxa = repository.findById(id).orElseThrow(
                 () -> new EntidadeNaoEncontradoException("taxa")
         );
         return taxa;
