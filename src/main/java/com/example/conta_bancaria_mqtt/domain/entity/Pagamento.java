@@ -1,5 +1,7 @@
 package com.example.conta_bancaria_mqtt.domain.entity;
 
+import com.example.conta_bancaria_mqtt.domain.enums.PagamentoStatus;
+import com.example.conta_bancaria_mqtt.domain.enums.TipoPagamento;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -23,14 +25,19 @@ public class Pagamento {
     @ManyToOne
     protected Conta conta;
 
-    protected BigDecimal boleto;
+    protected String boleto;
 
     protected BigDecimal valorPago;
 
     protected String dataPagamento;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoPagamento tipoPagamento;
 
-    protected String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PagamentoStatus status;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Taxa> taxas;

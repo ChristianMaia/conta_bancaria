@@ -23,12 +23,10 @@ public class TaxaService {
     @PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
     public TaxaResponseDTO registrarTaxa(TaxaRegistroDTO dto) {
         var novaTaxa = dto.toEntity();
-        Taxa taxa = acharTaxaPorId(dto.toEntity().getId());
-        taxa.validarTaxa(dto.percentual(), dto.valorfixo());
+        novaTaxa.validarTaxa(dto.percentual(), dto.valorfixo());
         return TaxaResponseDTO.fromEntity(repository.save(novaTaxa));
     }
 
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
     public List<TaxaResponseDTO> listarTaxasAtivas() {
         return repository.findAll().stream()
@@ -50,7 +48,6 @@ public class TaxaService {
 
         taxa.setDescricao(dto.descricao());
         taxa.setPercentual(dto.percentual());
-        taxa.setDescricao(dto.descricao());
 
         taxa.validarTaxa(dto.percentual(), dto.valorfixo());
         return TaxaResponseDTO.fromEntity(repository.save(taxa));
@@ -63,7 +60,6 @@ public class TaxaService {
 
         taxa.setDescricao(dto.descricao());
         taxa.setValorFixo(dto.valorfixo());
-        taxa.setDescricao(dto.descricao());
 
         taxa.validarTaxa(dto.percentual(), dto.valorfixo());
         return TaxaResponseDTO.fromEntity(repository.save(taxa));
