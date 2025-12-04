@@ -2,17 +2,19 @@ package com.example.conta_bancaria_mqtt.application.dto;
 
 import com.example.conta_bancaria_mqtt.domain.entity.Conta;
 import com.example.conta_bancaria_mqtt.domain.entity.Pagamento;
+import com.example.conta_bancaria_mqtt.domain.enums.PagamentoStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record PagamentoResponseDTO(
         Long id,
         Conta conta,
-        BigDecimal boleto,
+        String boleto,
         BigDecimal valorPago,
-        String dataPagamento,
-        String status,
+        LocalDateTime dataPagamento,
+        PagamentoStatus status,
         List<TaxaResponseDTO> taxa
 ) {
     public static PagamentoResponseDTO fromEntity(Pagamento pagamento){

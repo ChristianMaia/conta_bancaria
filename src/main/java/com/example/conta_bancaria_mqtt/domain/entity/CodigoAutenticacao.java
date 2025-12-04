@@ -31,5 +31,6 @@ public class CodigoAutenticacao {
     protected boolean validado;
 
     @NotBlank
+    @OneToOne
     protected Cliente cliente;
 }
