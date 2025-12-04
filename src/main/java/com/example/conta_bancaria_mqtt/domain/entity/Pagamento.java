@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -29,7 +30,7 @@ public class Pagamento {
 
     protected BigDecimal valorPago;
 
-    protected String dataPagamento;
+    protected LocalDateTime dataPagamento;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

@@ -6,6 +6,7 @@ import com.example.conta_bancaria_mqtt.domain.entity.Taxa;
 import com.example.conta_bancaria_mqtt.domain.enums.PagamentoStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record PagamentoRegistroDTO(
@@ -13,7 +14,7 @@ public record PagamentoRegistroDTO(
         Conta conta,
         String boleto,
         BigDecimal valorPago,
-        String dataPagamento,
+        LocalDateTime dataPagamento,
         PagamentoStatus status,
         List<Taxa> taxas
 ) {
