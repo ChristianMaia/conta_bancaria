@@ -1,5 +1,6 @@
 package com.example.conta_bancaria_mqtt.domain.entity;
 
+import com.example.conta_bancaria_mqtt.domain.enums.TipoPagamento;
 import com.example.conta_bancaria_mqtt.domain.exception.TaxaMesmoBoletoException;
 import com.example.conta_bancaria_mqtt.domain.exception.TaxaInvalidaException;
 import jakarta.persistence.*;
@@ -26,6 +27,10 @@ public class Taxa {
     protected BigDecimal percentual;
 
     protected BigDecimal valorFixo;
+
+    @Enumerated(EnumType.STRING)
+    private TipoPagamento tipoPagamento;
+
 
     public void validarTaxa(BigDecimal percentual, BigDecimal valorFixo) {
         boolean temPercentual = percentual != null && percentual.compareTo(BigDecimal.ZERO) > 0;

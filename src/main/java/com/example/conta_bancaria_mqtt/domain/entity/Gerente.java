@@ -6,12 +6,13 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
+
 @Getter
 @Setter
+@AllArgsConstructor
 @SuperBuilder
 @Entity
 @Table(name = "gerentes")
-
-public class Gerente extends Usuario{
+public class Gerente extends Usuario {
 
 }

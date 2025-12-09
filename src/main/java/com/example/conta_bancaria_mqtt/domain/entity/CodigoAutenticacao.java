@@ -24,13 +24,12 @@ public class CodigoAutenticacao {
     @NotBlank
     protected String codigo;
 
-    @NotBlank
+    @NotNull
     protected LocalDateTime expiraEm;
 
-    @NotBlank
     protected boolean validado;
 
-    @NotBlank
+    @NotNull
     @OneToOne
     protected Cliente cliente;
 }
